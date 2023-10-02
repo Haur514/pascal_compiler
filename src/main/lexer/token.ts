@@ -23,6 +23,10 @@ const token_dict: token_dict_type = {
     id: 4,
     name: "SCHAR",
   },
+  "/": {
+    id: 5,
+    name: "SDIVD",
+  },
   div: {
     id: 5,
     name: "SDIVD",
@@ -39,9 +43,24 @@ const token_dict: token_dict_type = {
     id: 8,
     name: "SEND",
   },
+
   program: {
     id: 17,
     name: "SPROGRAM",
+  },
+
+  ";": {
+    id: 37,
+    name: "SSEMICOLON",
+  },
+  ":": {
+    id: 38,
+    name: "SCOLON",
+  },
+
+  ".": {
+    id: 42,
+    name: "SDOT",
   },
 };
 
@@ -53,35 +72,21 @@ class Token {
 
   constructor(token_word: string, line_num: number) {
     this.token_word = token_word;
-    this.token_id = this.get_token_id(token_word);
-    this.token_name = this.get_token_name(token_word);
+    this.token_id = this.get_token_label(token_word)[0];
+    this.token_name = this.get_token_label(token_word)[1];
     this.line_num = line_num;
   }
 
-  get_token_id(token_word: string) {
+  get_token_label(token_word: string): [number, string] {
     if (token_word in token_dict) {
-      return token_dict[token_word]["id"];
+      return [token_dict[token_word]["id"], token_dict[token_word]["name"]];
     } else {
       if (Number.isNaN(token_word)) {
-        return 44;
+        return [44, "SCONSTANT"];
       } else if (token_word.startsWith('"')) {
-        return 45;
+        return [45, "SSTRING"];
       } else {
-        return 43;
-      }
-    }
-  }
-
-  get_token_name(token_word: string) {
-    if (token_word in token_dict) {
-      return token_dict[token_word]["name"];
-    } else {
-      if (Number.isNaN(token_word)) {
-        return "SCONSTANT";
-      } else if (token_word.startsWith('"')) {
-        return "SSTRING";
-      } else {
-        return "SIDENTIFIER";
+        return [43, "SIDENTIFIER"];
       }
     }
   }

@@ -1,0 +1,24 @@
+import Token from "../../lexer/token";
+import ASTNode from "../astnode";
+
+class ASTIdentifier extends ASTNode {
+  constructor(token: Token) {
+    super([token]);
+    this.check_validity(token);
+  }
+
+  // 要件を満たしているかチェック
+  check_validity(token: Token) {
+    if (!token.token_word.charAt(0).match(/^[A-Za-z]*$/)) {
+      return false;
+    }
+    for (let i = 1; i < token.token_word.length; i++) {
+      if (!token.token_word.charAt(0).match(/^[A-Za-z0-9]*$/)) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+export default ASTIdentifier;
