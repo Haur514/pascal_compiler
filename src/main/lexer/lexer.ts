@@ -4,6 +4,9 @@ import Token from "./token";
 
 // トークンを切り出し配列で返す
 class Lexer {
+  // コメントの中身か判別
+  private is_in_comment = false;
+
   run(pascal_program: string) {
     const token_list: Token[] = [];
     const pascal_statements = pascal_program.split("\n");
@@ -27,9 +30,19 @@ class Lexer {
     for (let i = 0; i < statement.length; i++) {
       const current_char = statement.charAt(i);
 
+      // コメントを処理
+      if (current_char === "{") {
+        this.is_in_comment = true;
+      } else if (current_char === "}") {
+        this.is_in_comment = false;
+        continue;
+      }
+      if (this.is_in_comment) {
+        continue;
+      }
+
       if (is_current_character_in_natural_string) {
-        is_current_character_in_natural_string =
-          !is_current_character_in_natural_string;
+        current_token += current_char;
       } else {
         if (this.is_delimiter(current_char)) {
           this.add_token(token_candidate_list, current_token);
@@ -82,7 +95,7 @@ class Lexer {
   }
 
   is_quote(char: string) {
-    if (char == '"') {
+    if (char == "'") {
       return true;
     }
     return false;

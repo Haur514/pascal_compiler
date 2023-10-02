@@ -1,3 +1,4 @@
+import SyntaxError from "../../exception/syntax_error";
 import Token from "../../lexer/token";
 import ASTNode from "../astnode";
 
@@ -10,11 +11,11 @@ class ASTIdentifier extends ASTNode {
   // 要件を満たしているかチェック
   check_validity(token: Token) {
     if (!token.token_word.charAt(0).match(/^[A-Za-z]*$/)) {
-      return false;
+      throw new SyntaxError(token.line_num);
     }
     for (let i = 1; i < token.token_word.length; i++) {
-      if (!token.token_word.charAt(0).match(/^[A-Za-z0-9]*$/)) {
-        return false;
+      if (!token.token_word.charAt(i).match(/^[A-Za-z0-9]*$/)) {
+        throw new SyntaxError(token.line_num);
       }
     }
     return true;

@@ -2,7 +2,7 @@ import Lexer from "../../main/lexer/lexer";
 import Token from "../../main/lexer/token";
 
 test("quoteTest", function () {
-  expect(new Lexer().is_quote('"')).toBe(true);
+  expect(new Lexer().is_quote("'")).toBe(true);
 });
 
 test("tokenizeTest", function () {
@@ -49,9 +49,11 @@ test("lexerRunTest", function () {
     new Token(";", 1),
   ];
   expect(new Lexer().run(input1)).toEqual(expected1);
+});
 
+test("skip_comment_test", function () {
   const input2 = `program testBasic;
-  var i: integer;
+  var i: integer;  { <<<< syntax error here }
   
   begin
     i := 3;
@@ -74,6 +76,40 @@ test("lexerRunTest", function () {
     new Token("writeln", 6),
     new Token("(", 6),
     new Token("i", 6),
+    new Token(")", 6),
+    new Token(";", 6),
+    new Token("end", 7),
+    new Token(".", 7),
+  ];
+
+  expect(new Lexer().run(input2)).toEqual(expected2);
+});
+
+test("identifier_test", function () {
+  const input2 = `program testBasic;
+  var i: integer;  { <<<< syntax error here }
+  
+  begin
+    i := 3;
+    writeln('***** calculating ******');
+  end.`;
+  const expected2 = [
+    new Token("program", 1),
+    new Token("testBasic", 1),
+    new Token(";", 1),
+    new Token("var", 2),
+    new Token("i", 2),
+    new Token(":", 2),
+    new Token("integer", 2),
+    new Token(";", 2),
+    new Token("begin", 4),
+    new Token("i", 5),
+    new Token(":=", 5),
+    new Token("3", 5),
+    new Token(";", 5),
+    new Token("writeln", 6),
+    new Token("(", 6),
+    new Token("'***** calculating ******'", 6),
     new Token(")", 6),
     new Token(";", 6),
     new Token("end", 7),

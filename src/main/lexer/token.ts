@@ -43,12 +43,118 @@ const token_dict: token_dict_type = {
     id: 8,
     name: "SEND",
   },
-
+  false: {
+    id: 9,
+    name: "SFALSE",
+  },
+  if: {
+    id: 10,
+    name: "SIF",
+  },
+  integer: {
+    id: 11,
+    name: "SINTEGER",
+  },
+  mod: {
+    id: 12,
+    name: "SMOD",
+  },
+  not: {
+    id: 13,
+    name: "SNOT",
+  },
+  of: {
+    id: 14,
+    name: "SOF",
+  },
+  or: {
+    id: 15,
+    name: "SOR",
+  },
+  procedure: {
+    id: 16,
+    name: "SPROCEDURE",
+  },
   program: {
     id: 17,
     name: "SPROGRAM",
   },
-
+  readln: {
+    id: 18,
+    name: "SREADLN",
+  },
+  then: {
+    id: 19,
+    name: "STHEN",
+  },
+  true: {
+    id: 20,
+    name: "STRUE",
+  },
+  var: {
+    id: 21,
+    name: "SVAR",
+  },
+  while: {
+    id: 22,
+    name: "SWHILE",
+  },
+  writeln: {
+    id: 23,
+    name: "SWRITELN",
+  },
+  "=": {
+    id: 24,
+    name: "SEQUAL",
+  },
+  "<>": {
+    id: 25,
+    name: "SNOTEQUAL",
+  },
+  "<": {
+    id: 26,
+    name: "SLESS",
+  },
+  "<=": {
+    id: 27,
+    name: "SLESSEQUAL",
+  },
+  ">=": {
+    id: 28,
+    name: "SGREATEQUAL",
+  },
+  ">": {
+    id: 29,
+    name: "SGREAT",
+  },
+  "+": {
+    id: 30,
+    name: "SPLUS",
+  },
+  "-": {
+    id: 31,
+    name: "SMINUS",
+  },
+  "*": {
+    id: 32,
+    name: "SSTAR",
+  },
+  "(": {
+    id: 33,
+    name: "SLPAREN",
+  },
+  ")": {
+    id: 34,
+    name: "SRPAREN",
+  },
+  "[": {
+    id: 35,
+    name: "SLBRACKET",
+  },
+  "]": {
+    id: 36,
+    name: "SRBRACKET",
+  },
   ";": {
     id: 37,
     name: "SSEMICOLON",
@@ -57,7 +163,18 @@ const token_dict: token_dict_type = {
     id: 38,
     name: "SCOLON",
   },
-
+  "..": {
+    id: 39,
+    name: "SRANGE",
+  },
+  ":=": {
+    id: 40,
+    name: "SASSIGN",
+  },
+  ",": {
+    id: 41,
+    name: "SCOMMA",
+  },
   ".": {
     id: 42,
     name: "SDOT",
@@ -83,7 +200,7 @@ class Token {
     } else {
       if (Number.isNaN(token_word)) {
         return [44, "SCONSTANT"];
-      } else if (token_word.startsWith('"')) {
+      } else if (token_word.startsWith("'") && token_word.endsWith("'")) {
         return [45, "SSTRING"];
       } else {
         return [43, "SIDENTIFIER"];

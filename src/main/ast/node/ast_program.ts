@@ -16,6 +16,9 @@ class ASTProgram extends ASTNode {
     if (typeof token_list === "undefined") {
       throw new SyntaxError(1);
     }
+    if (token_list.length == 0) {
+      return;
+    }
 
     if (token_list[0].token_name === "SPROGRAM") {
       this.addChild(new ASTLeaf(token_list[0]));
@@ -55,7 +58,7 @@ class ASTProgram extends ASTNode {
 
   // "ブロック"の範囲となるトークンの範囲を取得し，その範囲を[start: number, end: number]で返す．両端を含む．
   get_token_range_of_block(token_list: Token[]): [number, number] {
-    const start = 4;
+    const start = 3;
     const end = this.get_token_range_of_composed_statements(token_list)[0] - 1;
     return [start, end];
   }
